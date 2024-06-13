@@ -6,7 +6,7 @@ await untis.login();
 const timetable = await untis.getOwnTimetableForToday();
 
 Bun.serve({
-    port: 3000,
+    port: 8080,
     fetch(req) {
         return new Response(JSON.stringify(timetable), {
             headers: {
