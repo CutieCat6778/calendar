@@ -34,7 +34,10 @@ Bun.serve({
 
     let date = url.pathname.replace("/", "");
     console.log(date);
-    let data = await untis.getOwnTimetableFor(weekDates[parseInt(date)]);
+    let data = await untis.getOwnTimetableForRange(
+      weekDates[parseInt(date)],
+      weekDates[parseInt(date) + 1],
+    );
 
     return new Response(JSON.stringify(data), {
       headers: {
