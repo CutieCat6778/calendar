@@ -32,7 +32,7 @@ Bun.serve({
     const url = new URL(req.url);
     let weekDates = getCurrentWeekDates();
 
-    let date = req.pathname;
+    let date = url.pathname;
     let data = await untis.getOwnTimetableFor(weekDates[parseInt(date)]);
 
     return new Response(JSON.stringify(data), {
