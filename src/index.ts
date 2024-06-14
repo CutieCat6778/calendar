@@ -29,15 +29,13 @@ function getCurrentWeekDates() {
 Bun.serve({
   port: 8080,
   async fetch(req: any) {
-    let weeks: any[] = [];
+    const url = new URL(req.url);
     let weekDates = getCurrentWeekDates();
 
-    for (let date of weekDates) {
-      const timetable = await untis.getOwnTimetableForWeek(date);
-      weeks.push(timetable);
-    }
+    let date = req.pathname;
+    let data = await untis.getOwnTimetableFor(weekDates[parseInt(date)]);
 
-    return new Response(JSON.stringify(weeks), {
+    return new Response(JSON.stringify(data), {
       headers: {
         "content-type": "application/json",
       },
