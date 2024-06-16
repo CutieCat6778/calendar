@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { WebUntis } from "webuntis";
 import { Elysia } from "elysia";
 
@@ -13,6 +12,7 @@ const app = new Elysia();
 
 function getWeekDates(weeksAhead = 0) {
   const currentDate = new Date();
+  currentDate.setHours(4);
   const dayOfWeek = currentDate.getDay(); // Get the current day of the week (0-6, where 0 is Sunday)
   const startOfWeek = new Date(currentDate); // Clone the current date to manipulate it
   startOfWeek.setDate(currentDate.getDate() - dayOfWeek + weeksAhead * 7); // Set to the start of the week, adjusted by weeksAhead
@@ -46,7 +46,7 @@ app.get("/:id", async ({ params: { id } }) => {
 
   let weekDates = getWeekDates(0);
 
-  console.log(weekDates);
+  console.log(weekDates, weekDates[parseInt(id)], weekDates[parseInt(id) + 1]);
 
   const data = await untis.getOwnTimetableForRange(
     weekDates[parseInt(id)],
