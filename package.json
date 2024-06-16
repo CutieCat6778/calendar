@@ -9,6 +9,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "elysia": "^1.0.23",
     "webuntis": "^2.2.1"
   }
 }

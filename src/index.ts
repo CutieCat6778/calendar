@@ -1,4 +1,5 @@
 import { WebUntis } from "webuntis";
+import { Elysia } from "elysia";
 
 const untis = new WebUntis(
   "FTS-Villingen-Schwenningen",
@@ -7,13 +8,13 @@ const untis = new WebUntis(
   "arche.webuntis.com",
 );
 
-await untis.login();
+const app = new Elysia();
 
-function getCurrentWeekDates() {
+function getWeekDates(weeksAhead = 0) {
   const currentDate = new Date();
   const dayOfWeek = currentDate.getDay(); // Get the current day of the week (0-6, where 0 is Sunday)
   const startOfWeek = new Date(currentDate); // Clone the current date to manipulate it
-  startOfWeek.setDate(currentDate.getDate() - dayOfWeek); // Set to the start of the week (Sunday)
+  startOfWeek.setDate(currentDate.getDate() - dayOfWeek + weeksAhead * 7); // Set to the start of the week, adjusted by weeksAhead
 
   const weekDates = [];
 
@@ -26,23 +27,36 @@ function getCurrentWeekDates() {
   return weekDates;
 }
 
-Bun.serve({
-  port: 8080,
-  async fetch(req: any) {
-    const url = new URL(req.url);
-    let weekDates = getCurrentWeekDates();
-
-    let date = url.pathname.replace("/", "");
-    console.log(date);
-    let data = await untis.getOwnTimetableForRange(
-      weekDates[parseInt(date)],
-      weekDates[parseInt(date) + 1],
-    );
-
-    return new Response(JSON.stringify(data), {
-      headers: {
-        "content-type": "application/json",
-      },
-    });
-  },
+app.on("start", async () => {
+  console.log("Logging in...");
+  try {
+    const data = await untis.login();
+    console.log(data);
+  } catch (e) {
+    throw e;
+  }
+  console.log("Logged in...");
 });
+
+app.get("/", () => "Hello World!");
+
+app.get("/:id", async ({ params: { id } }) => {
+  console.log(id, untis);
+
+  let weekDates = getWeekDates(0);
+
+  console.log(weekDates);
+
+  const data = await untis.getOwnTimetableForRange(
+    weekDates[parseInt(id)],
+    weekDates[parseInt(id) + 1],
+  );
+
+  console.log(data);
+
+  return {
+    data,
+  };
+});
+
+app.listen(3000);
