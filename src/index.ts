@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { WebUntis } from "webuntis";
 import { Elysia } from "elysia";
 
@@ -59,4 +60,4 @@ app.get("/:id", async ({ params: { id } }) => {
   };
 });
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
