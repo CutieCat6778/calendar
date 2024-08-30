@@ -30,18 +30,19 @@ function getWeekDates(weeksAhead = 0) {
 
 app.on("start", async () => {
   console.log("Logging in...");
-  try {
-    const data = await untis.login();
-    console.log(data);
-  } catch (e) {
-    throw e;
-  }
   console.log("Logged in...");
 });
 
 app.get("/", () => "Hello World!");
 
 app.get("/:id", async ({ params: { id } }) => {
+  try {
+    const data = await untis.login();
+    console.log(data);
+  } catch (e) {
+    throw e;
+  }
+
   console.log(id, untis);
 
   let weekDates = getWeekDates(0);
