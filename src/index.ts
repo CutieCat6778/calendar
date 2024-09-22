@@ -39,8 +39,10 @@ app.get("/:id", async ({ params: { id } }) => {
   try {
     const data = await untis.login();
     console.log(data);
-  } catch (e) {
-    throw e;
+  } catch (e: any) {
+    return {
+      error: e.toString(),
+    };
   }
 
   console.log(id, untis);
