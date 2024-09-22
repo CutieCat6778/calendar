@@ -3,8 +3,8 @@ import { Elysia } from "elysia";
 
 const untis = new WebUntis(
   "FTS-Villingen-Schwenningen",
-  process.env.USERNAME || "",
-  process.env.PASSWORD || "",
+  "NguyenThi",
+  "!Txzje2006",
   "arche.webuntis.com",
 );
 
@@ -61,4 +61,4 @@ app.get("/:id", async ({ params: { id } }) => {
   };
 });
 
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 4200);
